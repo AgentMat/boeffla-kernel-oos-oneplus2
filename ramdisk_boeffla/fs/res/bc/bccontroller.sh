@@ -1589,25 +1589,5 @@ if [ "bring_big_cpu_cluster_online" == "$1" ]; then
 
 	chmod 444 /sys/devices/system/cpu/cpu4/core_ctl/min_cpus
 	chmod 444 /sys/devices/system/cpu/cpu4/core_ctl/max_cpus
-	
-	# if cpu core 4 not yet online, wait 200 ms
-	if [ ! -e /sys/devices/system/cpu/cpu4/cpufreq/scaling_max_freq_hardlimit ]; then
-		busybox sleep 0.2s
-	else
-		exit 0
-	fi
-
-	# if cpu core 4 not yet online, wait another 200 ms
-	if [ ! -e /sys/devices/system/cpu/cpu4/cpufreq/scaling_max_freq_hardlimit ]; then
-		busybox sleep 0.2s
-	else
-		exit 0
-	fi
-
-	# if cpu core 4 not yet online, wait another final s200 ms
-	if [ ! -e /sys/devices/system/cpu/cpu4/cpufreq/scaling_max_freq_hardlimit ]; then
-		busybox sleep 0.2s
-	fi
-	
 	exit 0
 fi
