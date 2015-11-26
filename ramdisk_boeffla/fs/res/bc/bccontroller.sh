@@ -80,7 +80,7 @@ if [ "lov_eq_gain_profiles" == "$1" ]; then
 fi
 
 if [ "lov_system_tweaks" == "$1" ]; then
-	echo "Off;Boeffla tweaks;Speedmod tweaks;Mattiadj tweaks"
+	echo "Thermal - Stock;Thermal - Relaxed;Thermal - Gaming"
 	exit 0
 fi
 
@@ -901,57 +901,34 @@ fi
 
 if [ "apply_system_tweaks" == "$1" ]; then
 
-	if [ "Off" == "$2" ]; then
-		echo "5" > /proc/sys/vm/dirty_background_ratio
-		echo "200" > /proc/sys/vm/dirty_expire_centisecs
-		echo "20" > /proc/sys/vm/dirty_ratio
-		echo "500" > /proc/sys/vm/dirty_writeback_centisecs
-		echo "3207" > /proc/sys/vm/min_free_kbytes
-		echo "60" > /proc/sys/vm/swappiness
-		echo "100" > /proc/sys/vm/vfs_cache_pressure
-		echo "0" > /proc/sys/vm/drop_caches
-		busybox sleep 0.5s
+	if [ "Thermal - Relaxed" == "$2" ]; then
+		mount -o remount,rw -t ext4 $SYSTEM_DEVICE /system
+		cp /res/thermal/thermal-engine-relaxed.conf /system/etc/thermal-engine.conf
+		chmod 644 /system/etc/thermal-engine.conf
 		busybox sync
+		mount -o remount,ro -t ext4 $SYSTEM_DEVICE /system
+		busybox sync
+		exit 0
 	fi
 
-	if [ "Boeffla tweaks" == "$2" ]; then
-		echo "70" > /proc/sys/vm/dirty_background_ratio
-		echo "250" > /proc/sys/vm/dirty_expire_centisecs
-		echo "90" > /proc/sys/vm/dirty_ratio
-		echo "500" > /proc/sys/vm/dirty_writeback_centisecs
-		echo "4096" > /proc/sys/vm/min_free_kbytes
-		echo "60" > /proc/sys/vm/swappiness
-		echo "10" > /proc/sys/vm/vfs_cache_pressure
-		echo "3" > /proc/sys/vm/drop_caches
-		busybox sleep 0.5s
+	if [ "Thermal - Gaming" == "$2" ]; then
+		mount -o remount,rw -t ext4 $SYSTEM_DEVICE /system
+		cp /res/thermal/thermal-engine-gaming.conf /system/etc/thermal-engine.conf
+		chmod 644 /system/etc/thermal-engine.conf
 		busybox sync
+		mount -o remount,ro -t ext4 $SYSTEM_DEVICE /system
+		busybox sync
+		exit 0
 	fi
 
-	if [ "Speedmod tweaks" == "$2" ]; then
-		echo "5" > /proc/sys/vm/dirty_background_ratio
-		echo "200" > /proc/sys/vm/dirty_expire_centisecs
-		echo "20" > /proc/sys/vm/dirty_ratio
-		echo "1500" > /proc/sys/vm/dirty_writeback_centisecs
-		echo "12288" > /proc/sys/vm/min_free_kbytes
-		echo "0" > /proc/sys/vm/swappiness
-		echo "100" > /proc/sys/vm/vfs_cache_pressure
-		echo "0" > /proc/sys/vm/drop_caches
-		busybox sleep 0.5s
-		busybox sync
-	fi
+	# fall back to stock thermal engine if no match
+	mount -o remount,rw -t ext4 $SYSTEM_DEVICE /system
+	cp /res/thermal/thermal-engine.conf /system/etc/thermal-engine.conf
+	chmod 644 /system/etc/thermal-engine.conf
+	busybox sync
+	mount -o remount,ro -t ext4 $SYSTEM_DEVICE /system
+	busybox sync
 
-	if [ "Mattiadj tweaks" == "$2" ]; then
-		echo "10" > /proc/sys/vm/dirty_background_ratio
-		echo "500" > /proc/sys/vm/dirty_expire_centisecs
-		echo "10" > /proc/sys/vm/dirty_ratio
-		echo "100" > /proc/sys/vm/dirty_writeback_centisecs
-		echo "8192" > /proc/sys/vm/min_free_kbytes
-		echo "70" > /proc/sys/vm/swappiness
-		echo "500" > /proc/sys/vm/vfs_cache_pressure
-		echo "0" > /proc/sys/vm/drop_caches
-		busybox sleep 0.5s
-		busybox sync
-	fi
 	exit 0
 fi
 
