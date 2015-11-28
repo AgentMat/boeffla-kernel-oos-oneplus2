@@ -80,7 +80,7 @@ if [ "lov_eq_gain_profiles" == "$1" ]; then
 fi
 
 if [ "lov_system_tweaks" == "$1" ]; then
-	echo "Thermal - Stock;Thermal - Relaxed;Thermal - Gaming"
+	echo "Thermal - Stock;Thermal - Custom;Thermal - Relaxed;Thermal - Gaming"
 	exit 0
 fi
 
@@ -901,6 +901,11 @@ fi
 
 if [ "apply_system_tweaks" == "$1" ]; then
 
+	if [ "Thermal - Custom" == "$2" ]; then
+		# do nothing to allow custom thermal configuration to not be overwritten
+		exit 0
+	fi
+	
 	if [ "Thermal - Relaxed" == "$2" ]; then
 		mount -o remount,rw -t ext4 $SYSTEM_DEVICE /system
 		cp /res/thermal/thermal-engine-relaxed.conf /system/etc/thermal-engine.conf
