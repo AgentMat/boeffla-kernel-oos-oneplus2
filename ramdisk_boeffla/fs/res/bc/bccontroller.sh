@@ -45,7 +45,7 @@ if [ "lov_gov_profiles_2" == "$1" ]; then
 fi
 
 if [ "lov_cpu_hotplug_profiles" == "$1" ]; then
-	echo "min=4, max=4 (default);min=1, max=4;min=1, max=3;min=1, max=2;min=1, max=1;min=2, max=4;min=2, max=3;min=2, max=2;min=3, max=4;min=3, max=3"
+	echo "4 cores (default);3 cores;2 cores;1 core"
 	exit 0
 fi
 
@@ -453,36 +453,10 @@ fi
 
 if [ "apply_cpu_hotplug_profile" == "$1" ]; then
 
-	echo "35 35 35 35" > /sys/devices/system/cpu/cpu0/core_ctl/busy_down_thres
-	echo "65 65 65 65" > /sys/devices/system/cpu/cpu0/core_ctl/busy_up_thres
-
 	chmod 666 /sys/devices/system/cpu/cpu0/core_ctl/min_cpus
 	chmod 666 /sys/devices/system/cpu/cpu0/core_ctl/max_cpus
 
-	if [ "min=1, max=4" == "$2" ]; then
-		echo 1 > /sys/devices/system/cpu/cpu0/core_ctl/min_cpus
-		echo 4 > /sys/devices/system/cpu/cpu0/core_ctl/max_cpus
-		chmod 444 /sys/devices/system/cpu/cpu0/core_ctl/min_cpus
-		chmod 444 /sys/devices/system/cpu/cpu0/core_ctl/max_cpus
-	fi
-
-	if [ "min=1, max=3" == "$2" ]; then
-		echo 1 > /sys/devices/system/cpu/cpu0/core_ctl/min_cpus
-		echo 3 > /sys/devices/system/cpu/cpu0/core_ctl/max_cpus
-		chmod 444 /sys/devices/system/cpu/cpu0/core_ctl/min_cpus
-		chmod 444 /sys/devices/system/cpu/cpu0/core_ctl/max_cpus
-		exit 0
-	fi	
-	
-	if [ "min=1, max=2" == "$2" ]; then
-		echo 1 > /sys/devices/system/cpu/cpu0/core_ctl/min_cpus
-		echo 2 > /sys/devices/system/cpu/cpu0/core_ctl/max_cpus
-		chmod 444 /sys/devices/system/cpu/cpu0/core_ctl/min_cpus
-		chmod 444 /sys/devices/system/cpu/cpu0/core_ctl/max_cpus
-		exit 0
-	fi
-	
-	if [ "min=1, max=1" == "$2" ]; then
+	if [ "1 core" == "$2" ]; then
 		echo 1 > /sys/devices/system/cpu/cpu0/core_ctl/min_cpus
 		echo 1 > /sys/devices/system/cpu/cpu0/core_ctl/max_cpus
 		chmod 444 /sys/devices/system/cpu/cpu0/core_ctl/min_cpus
@@ -490,23 +464,7 @@ if [ "apply_cpu_hotplug_profile" == "$1" ]; then
 		exit 0
 	fi
 	
-	if [ "min=2, max=4" == "$2" ]; then
-		echo 2 > /sys/devices/system/cpu/cpu0/core_ctl/min_cpus
-		echo 4 > /sys/devices/system/cpu/cpu0/core_ctl/max_cpus
-		chmod 444 /sys/devices/system/cpu/cpu0/core_ctl/min_cpus
-		chmod 444 /sys/devices/system/cpu/cpu0/core_ctl/max_cpus
-		exit 0
-	fi
-
-	if [ "min=2, max=3" == "$2" ]; then
-		echo 2 > /sys/devices/system/cpu/cpu0/core_ctl/min_cpus
-		echo 3 > /sys/devices/system/cpu/cpu0/core_ctl/max_cpus
-		chmod 444 /sys/devices/system/cpu/cpu0/core_ctl/min_cpus
-		chmod 444 /sys/devices/system/cpu/cpu0/core_ctl/max_cpus
-		exit 0
-	fi
-
-	if [ "min=2, max=2" == "$2" ]; then
+	if [ "2 cores" == "$2" ]; then
 		echo 2 > /sys/devices/system/cpu/cpu0/core_ctl/min_cpus
 		echo 2 > /sys/devices/system/cpu/cpu0/core_ctl/max_cpus
 		chmod 444 /sys/devices/system/cpu/cpu0/core_ctl/min_cpus
@@ -514,15 +472,7 @@ if [ "apply_cpu_hotplug_profile" == "$1" ]; then
 		exit 0
 	fi
 	
-	if [ "min=3, max=4" == "$2" ]; then
-		echo 3 > /sys/devices/system/cpu/cpu0/core_ctl/min_cpus
-		echo 4 > /sys/devices/system/cpu/cpu0/core_ctl/max_cpus
-		chmod 444 /sys/devices/system/cpu/cpu0/core_ctl/min_cpus
-		chmod 444 /sys/devices/system/cpu/cpu0/core_ctl/max_cpus
-		exit 0
-	fi
-	
-	if [ "min=3, max=3" == "$2" ]; then
+	if [ "3 cores" == "$2" ]; then
 		echo 3 > /sys/devices/system/cpu/cpu0/core_ctl/min_cpus
 		echo 3 > /sys/devices/system/cpu/cpu0/core_ctl/max_cpus
 		chmod 444 /sys/devices/system/cpu/cpu0/core_ctl/min_cpus
@@ -530,7 +480,7 @@ if [ "apply_cpu_hotplug_profile" == "$1" ]; then
 		exit 0
 	fi
 	
-	# Default "min=4, max=4 (default)", or when no profile set
+	# Default "4 cores (default)", or when no profile set
 	echo 4 > /sys/devices/system/cpu/cpu0/core_ctl/min_cpus
 	echo 4 > /sys/devices/system/cpu/cpu0/core_ctl/max_cpus
 	chmod 444 /sys/devices/system/cpu/cpu0/core_ctl/min_cpus
