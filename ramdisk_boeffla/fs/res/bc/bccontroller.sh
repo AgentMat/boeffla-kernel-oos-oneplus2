@@ -50,7 +50,7 @@ if [ "lov_cpu_hotplug_profiles" == "$1" ]; then
 fi
 
 if [ "lov_cpu_hotplug_profiles_2" == "$1" ]; then
-	echo "min=2, max=4 (default);min=1, max=4;min=1, max=3;min=1, max=2;min=1, max=1;min=2, max=3;min=2, max=2;min=3, max=4;min=3, max=3;min=4, max=4"
+	echo "min=2, max=4 (default);min=2, max=4 (non-stock);min=1, max=4;min=1, max=3;min=1, max=2;min=1, max=1;min=2, max=3;min=2, max=2;min=3, max=4;min=3, max=3;min=4, max=4"
 	exit 0
 fi
 
@@ -566,11 +566,21 @@ if [ "apply_cpu_hotplug_profile_2" == "$1" ]; then
 		exit 0
 	fi
 	
+	if [ "min=2, max=4 (non-stock)" == "$2" ]; then
+		echo 2 > /sys/devices/system/cpu/cpu4/core_ctl/min_cpus
+		echo 4 > /sys/devices/system/cpu/cpu4/core_ctl/max_cpus
+		chmod 444 /sys/devices/system/cpu/cpu4/core_ctl/min_cpus
+		chmod 444 /sys/devices/system/cpu/cpu4/core_ctl/max_cpus
+		exit 0
+	fi
+	
 	# Default "min=2, max=4", or when no profile set
+	# this is full stock = permissions set so rom can change core_ctl settings
+	# to e.g. switch off cores when certain apps running (like Chrome etc.)
 	echo 2 > /sys/devices/system/cpu/cpu4/core_ctl/min_cpus
 	echo 4 > /sys/devices/system/cpu/cpu4/core_ctl/max_cpus
-	chmod 444 /sys/devices/system/cpu/cpu4/core_ctl/min_cpus
-	chmod 444 /sys/devices/system/cpu/cpu4/core_ctl/max_cpus
+	chmod 644 /sys/devices/system/cpu/cpu4/core_ctl/min_cpus
+	chmod 644 /sys/devices/system/cpu/cpu4/core_ctl/max_cpus
 
 	exit 0;
 fi
