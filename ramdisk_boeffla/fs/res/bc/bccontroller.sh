@@ -80,7 +80,7 @@ if [ "lov_eq_gain_profiles" == "$1" ]; then
 fi
 
 if [ "lov_system_tweaks" == "$1" ]; then
-	echo "Thermal - Stock;Thermal - Custom;Thermal - Relaxed;Thermal - Gaming"
+	echo "Thermal - Stock;Thermal - Custom;Thermal - Relaxed;Thermal - Gaming;Thermal - Extreme"
 	exit 0
 fi
 
@@ -879,6 +879,16 @@ if [ "apply_system_tweaks" == "$1" ]; then
 	if [ "Thermal - Gaming" == "$2" ]; then
 		mount -o remount,rw -t ext4 $SYSTEM_DEVICE /system
 		cp /res/thermal/thermal-engine-gaming.conf /system/etc/thermal-engine.conf
+		chmod 644 /system/etc/thermal-engine.conf
+		busybox sync
+		mount -o remount,ro -t ext4 $SYSTEM_DEVICE /system
+		busybox sync
+		exit 0
+	fi
+
+	if [ "Thermal - Extreme" == "$2" ]; then
+		mount -o remount,rw -t ext4 $SYSTEM_DEVICE /system
+		cp /res/thermal/thermal-engine-extreme.conf /system/etc/thermal-engine.conf
 		chmod 644 /system/etc/thermal-engine.conf
 		busybox sync
 		mount -o remount,ro -t ext4 $SYSTEM_DEVICE /system
