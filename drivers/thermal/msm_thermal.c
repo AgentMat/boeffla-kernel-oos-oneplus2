@@ -2383,7 +2383,7 @@ static void __ref do_core_control(long temp)
 					i, temp);
 			if (cpu_online(i)) {
 				trace_thermal_pre_core_offline(i);
-				ret = cpu_down(i);
+				ret = cpu_down_nocheck(i);
 				if (ret)
 					pr_err("Error %d offline core %d\n",
 					       ret, i);
@@ -2442,7 +2442,7 @@ static int __ref update_offline_cores(int val)
 			if (!cpu_online(cpu))
 				continue;
 			trace_thermal_pre_core_offline(cpu);
-			ret = cpu_down(cpu);
+			ret = cpu_down_nocheck(cpu);
 			if (ret)
 				pr_err("Unable to offline CPU%d. err:%d\n",
 					cpu, ret);
