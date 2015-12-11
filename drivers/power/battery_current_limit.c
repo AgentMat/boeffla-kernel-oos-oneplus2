@@ -237,7 +237,7 @@ static void __ref bcl_handle_hotplug(struct work_struct *work)
 		if (bcl_hotplug_request & BIT(_cpu)) {
 			if (!cpu_online(_cpu))
 				continue;
-			ret = cpu_down(_cpu);
+			ret = cpu_down_nocheck(_cpu);
 			if (ret)
 				pr_err("Error %d offlining core %d\n",
 					ret, _cpu);
