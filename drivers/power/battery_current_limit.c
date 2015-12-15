@@ -278,10 +278,6 @@ static int __ref bcl_cpu_ctrl_callback(struct notifier_block *nfb,
 {
 	uint32_t cpu = (uintptr_t)hcpu;
 
-	// AP: if driver is off, do not restrict cores from coming up again
-	if (gbcl->bcl_mode != BCL_DEVICE_ENABLED)
-		return NOTIFY_OK;
-
 	if (action == CPU_UP_PREPARE || action == CPU_UP_PREPARE_FROZEN) {
 		if (!cpumask_test_and_set_cpu(cpu, bcl_cpu_online_mask))
 			pr_debug("BCL online Mask: %u\n",
